@@ -1,0 +1,13 @@
+domain-manager-mongo:
+    image: mongo:latest
+    volumes:
+      - './mongodb_data:/data/db:rw'
+    command: mongod --dbpath /data/db
+domain-manager-admin:
+    build: './'
+    ports:
+      - '3030:3000'
+    environment:
+      - 'MONGO_URL:domain-manager-mongo'
+    links:
+      - domain-manager-mongo
